@@ -26,7 +26,7 @@ func main() {
 	// -n nf says process nnn, nnn+1...nnn+nf-1
 	f0 := files[0]
 	f0num, err := strconv.Atoi(strings.TrimSuffix(f0, filepath.Ext(f0)))
-	fmt.Println(files, *nf)
+	//fmt.Println(files, *nf)
 	if len(*outfile) == 0 {
 		fnoex := strings.TrimSuffix(f0, filepath.Ext(f0))
 		*outfile = fnoex + ".su"
@@ -39,21 +39,19 @@ func main() {
 	defer fout.Close()
 	for i := 0; i < *nf; i++ {
 		fn := fmt.Sprintf("%d.dat", f0num+i)
-		fmt.Println("processing file ", i, fn)
+		log.Println("processing file", i, fn)
 
 		seg2trcs := seg2.ReadSEG2(fn)
 		//fmt.Println(len(seg2trcs))
 		//fmt.Println(seg2trcs[0].Data[:200])
 
 		for _, t := range seg2trcs {
-			segytrc := segy.SEG2SEGY(t)
+			segytrc := segy.Seg2Segy(t)
 			//fmt.Println(len(segytrc))
 			n, err := fout.Write(segytrc)
 			if err != nil {
-				fmt.Println("err writing su file", n, err)
+				log.Fatal("err writing su file", n, err)
 			}
-			//fmt.Printf("%T\n", segytrc.TraceHeader)
-			//binary.Write(fout, binary.LittleEndian, segytrc.TraceHeader)
 		}
 	}
 }
