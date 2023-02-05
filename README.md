@@ -15,8 +15,4 @@ https://github.com/JohnWStockwellJr/SeisUnix
 
 # Install
 
-  - go get github.com/sanandak/seg2segy
-  - cd <seg2segy> dir
-  - go get github.com/sanandak/seg
-  - go build
-  - go install
+  - go install github.com/sanandak/seg2segy@latest
